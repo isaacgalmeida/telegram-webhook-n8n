@@ -44,6 +44,7 @@ A Node.js integration service that listens for incoming Telegram messages (inclu
    API_HASH=your_api_hash
    SESSION_STRING=your_session_string
    WEBHOOK_URL=https://your-webhook-url.com/telegram
+   VERSION=1.0.0
    ```
 
 ### Running the Service

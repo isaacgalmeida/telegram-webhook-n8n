@@ -38,6 +38,7 @@
    API_HASH=seu_api_hash
    SESSION_STRING=sua_session_string
    WEBHOOK_URL=https://seu-endpoint-webhook.com/telegram
+   VERSION=1.0.0
    ```
 
 ### Executando o Serviço
