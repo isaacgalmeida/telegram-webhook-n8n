@@ -21,11 +21,8 @@ const client = new TelegramClient(stringSession, apiId, apiHash, {
   client.addEventHandler(async (event) => {
     const message = event.message;
     
-    const payload = {
-      messageId: message.id,
-      text: message.message,
-      photo: message.photo ? message.photo.toJSON() : null,
-    };
+    // Convert the entire message object to JSON
+    const payload = message.toJSON();
 
     try {
       await axios.post(webhookUrl, payload);
