@@ -21,6 +21,9 @@ function formatMessage(text, entities) {
   let formattedText = text;
   let offsetCorrection = 0;
 
+  // Ordena as entidades pelo offset para evitar problemas de deslocamento
+  entities.sort((a, b) => a.offset - b.offset);
+
   entities.forEach(entity => {
     let start = entity.offset + offsetCorrection;
     let end = start + entity.length;
@@ -36,8 +39,8 @@ function formatMessage(text, entities) {
       case 'MessageEntityUnderline':
         entityText = `__${entityText}__`;
         break;
-      case 'MessageEntityStrike':
-        entityText = `~${entityText}~`;
+      case 'MessageEntityStrike':  // 💡 Adicionando suporte a tachado
+        entityText = `~~${entityText}~~`;
         break;
       case 'MessageEntityCode':
         entityText = `\`${entityText}\``;
@@ -51,25 +54,17 @@ function formatMessage(text, entities) {
       case 'MessageEntityTextUrl':
         entityText = `[${entityText}](${entity.url})`;
         break;
-      case 'MessageEntityMention':
-      case 'MessageEntityHashtag':
-      case 'MessageEntityCashtag':
-      case 'MessageEntityBotCommand':
-      case 'MessageEntityEmail':
-      case 'MessageEntityPhone':
-        entityText = `${entityText}`;
-        break;
       default:
         return;
     }
 
-    // Substitui o texto formatado na string original
+    // Atualiza o texto formatado com a nova entidade aplicada
     formattedText =
       formattedText.substring(0, start) +
       entityText +
       formattedText.substring(end);
 
-    // Corrige o offset após modificação
+    // Ajusta o deslocamento devido ao novo tamanho do texto formatado
     offsetCorrection += entityText.length - entity.length;
   });
 
