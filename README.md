@@ -1,5 +1,5 @@
-[Read this page in English](https://github.com/isaacgalmeida/telegram-webhook-n8n/README.md)
-[Leia esta página em português](https://github.com/isaacgalmeida/telegram-webhook-n8n/README-pt.md)
+- [Read this page in English](https://github.com/isaacgalmeida/telegram-webhook-n8n/blob/main/README.md)
+- [Leia esta página em português](https://github.com/isaacgalmeida/telegram-webhook-n8n/blob/main/README-PT.md)
 
 # Telegram Webhook n8n
 
