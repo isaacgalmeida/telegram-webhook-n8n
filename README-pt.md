@@ -1,3 +1,6 @@
+- [Read this page in English](https://github.com/isaacgalmeida/telegram-webhook-n8n/blob/main/README.md)
+- [Leia esta página em português](https://github.com/isaacgalmeida/telegram-webhook-n8n/blob/main/README-PT.md)
+
 ## Português
 
 ### Funcionalidades
