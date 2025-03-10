@@ -1,4 +1,4 @@
-FROM node:17-alpine3.14
+FROM node:alpine3.21
 
 LABEL maintainer="isaac"
 
