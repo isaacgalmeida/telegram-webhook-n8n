@@ -1,0 +1,13 @@
+services:
+  telegram-webhook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: ${VERSION:-1.0.0}
+    environment:
+      API_ID: ${API_ID}
+      API_HASH: ${API_HASH}
+      SESSION_STRING: ${SESSION_STRING}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+    restart: unless-stopped
