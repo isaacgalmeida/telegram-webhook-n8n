@@ -14,9 +14,22 @@ const client = new TelegramClient(stringSession, apiId, apiHash, {
   connectionRetries: 5,
 });
 
-// Função para reconstruir a formatação original da mensagem
+// Função para escapar caracteres especiais no MarkdownV2
+function escapeMarkdownV2(text) {
+  if (!text) return text;
+
+  const escapeChars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'];
+  
+  escapeChars.forEach(char => {
+    text = text.replace(new RegExp(`\\${char}`, 'g'), `\\${char}`);
+  });
+
+  return text;
+}
+
+// Função para reconstruir a formatação original da mensagem com MarkdownV2
 function formatMessage(text, entities) {
-  if (!entities || !text) return text;
+  if (!entities || !text) return escapeMarkdownV2(text);
 
   let formattedText = text;
   let offsetCorrection = 0;
@@ -27,7 +40,7 @@ function formatMessage(text, entities) {
   entities.forEach(entity => {
     let start = entity.offset + offsetCorrection;
     let end = start + entity.length;
-    let entityText = formattedText.substring(start, end);
+    let entityText = escapeMarkdownV2(formattedText.substring(start, end));
 
     switch (entity.className) {
       case 'MessageEntityBold':
@@ -39,8 +52,8 @@ function formatMessage(text, entities) {
       case 'MessageEntityUnderline':
         entityText = `__${entityText}__`;
         break;
-      case 'MessageEntityStrike':  // 💡 Adicionando suporte a tachado
-        entityText = `~~${entityText}~~`;
+      case 'MessageEntityStrike':  // ✅ Adicionando suporte correto a tachado em MarkdownV2
+        entityText = `~${entityText}~`;
         break;
       case 'MessageEntityCode':
         entityText = `\`${entityText}\``;
@@ -81,7 +94,7 @@ function formatMessage(text, entities) {
     // Converte o objeto da mensagem para JSON
     const payload = message.toJSON();
 
-    // Formata a mensagem mantendo a formatação original
+    // Formata a mensagem mantendo a formatação original em MarkdownV2
     payload.formattedMessage = formatMessage(message.message, message.entities);
 
     // Se a mensagem contiver mídia do tipo foto, baixa a imagem e adiciona ao payload
@@ -105,7 +118,7 @@ function formatMessage(text, entities) {
 
     try {
       await axios.post(webhookUrl, payload);
-      console.log('Message forwarded to webhook with formatting.');
+      console.log('Message forwarded to webhook with MarkdownV2 formatting.');
     } catch (error) {
       console.error('Error forwarding message:', error);
       await client.sendMessage("me", { message: `Error forwarding message: ${error.message || error}` });
